@@ -75,11 +75,21 @@ generating a passphrase.
 import math
 import sys
 from random import SystemRandom
+import quantumrandom
 
 
 input_func = input
 if sys.version[0] < "3":
     input_func = raw_input  # NOQA  # pragma: no cover
+
+
+class QuantumRandomSource(object):
+    def __init__(self, options):
+        self.options = options
+
+    def choice(self, sequence):
+        index = int(quantumrandom.randint(max=len(sequence)))
+        return sequence[index]
 
 
 class SystemRandomSource(object):
@@ -97,6 +107,7 @@ class SystemRandomSource(object):
 
     The SystemRandomSource is the default source.
     """
+
     def __init__(self, options):
         self.options = options
         self.rnd = SystemRandom()
@@ -127,11 +138,12 @@ class SystemRandomSource(object):
 class RealDiceRandomSource(object):
     """A source of randomness working with real dice.
     """
+
     def __init__(self, options):
         self.options = options
         self.dice_sides = 6
         if options is not None:
-            self.dice_sides = getattr(options, 'dice_sides', 6)
+            self.dice_sides = getattr(options, "dice_sides", 6)
 
     def pre_check(self, num_rolls, sequence):
         """Checks performed before picking an item of a sequence.
@@ -140,17 +152,16 @@ class RealDiceRandomSource(object):
         acceptable range and issue an hint about the procedure.
         """
         if num_rolls == 0:
-            raise(ValueError)
+            raise (ValueError)
         if (self.dice_sides ** num_rolls) < len(sequence):
             print(
                 "Warning: entropy is reduced! Using only first %s of %s "
-                "words/items of your wordlist." % (
-                    self.dice_sides ** num_rolls, len(sequence)
-                )
+                "words/items of your wordlist."
+                % (self.dice_sides ** num_rolls, len(sequence))
             )
         print(
-            "Please roll %s dice (or a single dice %s times)." % (
-                num_rolls, num_rolls))
+            "Please roll %s dice (or a single dice %s times)." % (num_rolls, num_rolls)
+        )
         return
 
     def get_num_rolls(self, seq_len):
@@ -175,12 +186,11 @@ class RealDiceRandomSource(object):
             result = 0
             for i in range(num_rolls, 0, -1):
                 rolled = None
-                while rolled not in [
-                        str(x) for x in range(1, self.dice_sides + 1)]:
+                while rolled not in [str(x) for x in range(1, self.dice_sides + 1)]:
                     rolled = input_func(
-                        "What number shows dice number %s? " % (
-                            num_rolls - i + 1))
-                result += ((self.dice_sides ** (i - 1)) * (int(rolled) - 1))
+                        "What number shows dice number %s? " % (num_rolls - i + 1)
+                    )
+                result += (self.dice_sides ** (i - 1)) * (int(rolled) - 1)
             if result < len(sequence):
                 repeat = False
             else:

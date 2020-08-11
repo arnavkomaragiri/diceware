@@ -7,38 +7,37 @@ def read(fname):
 
 
 setup_requires = [
-    'pytest_runner',
-    ]
+    "pytest_runner",
+]
 
 install_requires = [
-    'setuptools',
-    ]
+    "setuptools",
+]
 
 tests_require = [
     # See tox.ini
-    'pytest >=2.8.3',
-    'coverage',
-    ]
+    "pytest >=2.8.3",
+    "coverage",
+]
 
 docs_require = [
-    'Sphinx',
-    'sphinx_rtd_theme',
-    ]
+    "Sphinx",
+    "sphinx_rtd_theme",
+]
 
 setup(
     name="diceware",
     version="0.9.7.dev0",
     author="Uli Fouquet",
     author_email="uli@gnufix.de",
-    description=(
-        "Passphrases you will remember."),
+    description=("Passphrases you will remember."),
     license="GPL 3.0",
     keywords="diceware password passphrase",
     url="https://github.com/ulif/diceware/",
     py_modules=[],
-    packages=['diceware', ],
+    packages=["diceware",],
     namespace_packages=[],
-    long_description=read('README.rst') + '\n\n\n' + read('CHANGES.rst'),
+    long_description=read("README.rst") + "\n\n\n" + read("CHANGES.rst"),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Console",
@@ -48,7 +47,8 @@ setup(
         "Topic :: Security :: Cryptography",
         (
             "License :: OSI Approved :: "
-            "GNU General Public License v3 or later (GPLv3+)"),
+            "GNU General Public License v3 or later (GPLv3+)"
+        ),
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.6",
@@ -67,17 +67,13 @@ setup(
     setup_requires=setup_requires,
     install_requires=install_requires,
     tests_require=tests_require,
-    extras_require=dict(
-        tests=tests_require,
-        docs=docs_require,
-        ),
+    extras_require=dict(tests=tests_require, docs=docs_require,),
     entry_points={
-        'console_scripts': [
-            'diceware = diceware:main',
-        ],
-        'diceware_random_sources': [
-            'system = diceware.random_sources:SystemRandomSource',
-            'realdice = diceware.random_sources:RealDiceRandomSource',
+        "console_scripts": ["diceware = diceware:main",],
+        "diceware_random_sources": [
+            "system = diceware.random_sources:SystemRandomSource",
+            "realdice = diceware.random_sources:RealDiceRandomSource",
+            "quantum = diceware.random_sources:QuantumRandomSource",
             # add more sources of randomness here...
         ],
     },
